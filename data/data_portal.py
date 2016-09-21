@@ -22,9 +22,9 @@ class DataWriter(with_metaclass(ABCMeta)):
     def file_path(self):
         raise NotImplementedError()
 
-    @abstractproperty
+    ''''@abstractproperty
     def data(self):
-        raise NotImplementedError()
+        raise NotImplementedError()'''
 
     def write(self):
         self._write(self.data, self.file_path)

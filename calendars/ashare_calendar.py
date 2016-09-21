@@ -7,16 +7,7 @@ from pandas import DataFrame
 
 class AshareCalendar(TradingCalendar):
 
-    @property
-    def open_days(self):
+    def load_open_days(self):
         acr = AShareTradingCalReader()
         opens = acr.read()
-        '''opens = DataFrame(
-            columns=[gs.MARKET_OPEN_FIELD],
-            data=open_list
-        )
-        opens = pd.read_csv(
-            filepath_or_buffer=gs.A_SHARE_TRADING_CALENDAR,
-            names=['date']
-        )'''
         return opens

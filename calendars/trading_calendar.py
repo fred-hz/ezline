@@ -1,4 +1,4 @@
-from abc import ABCMeta, abstractproperty
+from abc import ABCMeta, abstractproperty, abstractmethod
 import numpy as np
 import pandas as pd
 from six import with_metaclass
@@ -16,6 +16,9 @@ from data.calendar import NaturalCalReader
 class TradingCalendar(with_metaclass(ABCMeta)):
     def __init__(self, begin=gs.DATE_BEGIN_DEFAULT, end=gs.DATE_END_DEFAULT):
 
+        self.all_days = self.load_all_days()
+        self.open_days = self.load_open_days()
+
         _index_is_open = [1 if date in self.open_days else 0 for date in self.all_days]
 
         self.schedule = DataFrame(
@@ -26,27 +29,14 @@ class TradingCalendar(with_metaclass(ABCMeta)):
             }
         )
 
-    @property
-    def all_days(self):
+    def load_all_days(self):
         ncr = NaturalCalReader()
         _all_days = ncr.read()
-        '''_all_days = DataFrame(
-            columns=[gs.DATE_FIELD],
-            data=all_days_list
-        )
-        all_days = pd.read_csv(
-            filepath_or_buffer=gs.NATURAL_CALENDAR,
-            names=[DATE_FIELD]
-        )'''
         return _all_days
 
-    @abstractproperty
-    def open_days(self):
-        """
-        A List of open days
-        :return:
-        """
-        return None
+    @abstractmethod
+    def load_open_days(self):
+        raise NotImplementedError
 
     def is_open(self, dt):
         return self.schedule.ix[dt, gs.MARKET_OPEN_FIELD]
