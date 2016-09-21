@@ -1,0 +1,3 @@
+
+NOTICE_PATH_PREFIX = 'D:/ezline/data/notice'
+NOTICE_RAW_DATA_PATH = NOTICE_PATH_PREFIX + '/raw'

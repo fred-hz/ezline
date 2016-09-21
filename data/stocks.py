@@ -16,8 +16,7 @@ class AShareStocksWriter(DataWriter):
     def file_path(self):
         return gs.A_SHARE_STOCKS_PATH
 
-    @property
-    def data(self):
+    def set_data(self):
         # Not finished yet
         pass
 
@@ -37,10 +36,9 @@ class AShareDailyTradeWriter(DataWriter):
     def file_path(self):
         return gs.A_SHARE_DAILY_TRADE_PATH
 
-    ''''@property
-    def data(self):
+    def set_data(self):
         # Not finished yet
-        pass'''
+        pass
 
 
 class AShareDailyTradeReader(DataReader):

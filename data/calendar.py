@@ -15,8 +15,7 @@ class NaturalCalWriter(DataWriter):
     def file_path(self):
         return gs.NATURAL_CALENDAR_PATH
 
-    @property
-    def data(self):
+    def set_data(self):
         # Not finished yet
         pass
 
@@ -38,8 +37,7 @@ class AShareTradingCalWriter(DataWriter):
     def file_path(self):
         return gs.A_SHARE_TRADING_CALENDAR_PATH
 
-    @property
-    def data(self):
+    def set_data(self):
         # Not finished yet
         pass
 

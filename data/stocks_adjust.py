@@ -20,8 +20,7 @@ class AShareStockAdjWriter(DataWriter):
     def file_path(self):
         return gs.STOCKS_ADJUST_PATH
 
-    @property
-    def data(self):
+    def set_data(self, params=None):
         asr = AShareStockReader()
         data = None
         stocks_list = asr.read()
@@ -35,6 +34,8 @@ class AShareStockAdjWriter(DataWriter):
                 data = new_data
             else:
                 data = data.append(new_data, ignore_index=True)
+
+        self.data = data
         return data
 
 class AShareStockAdjReader(DataReader):
