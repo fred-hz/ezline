@@ -3,14 +3,10 @@ from config import globals as gs
 from .data_portal import (
     DataWriter,
     DataReader,
-    write_dataframe_to_csv,
-    read_csv_to_dataframe
 )
-from .calendar import AShareTradingCalReader
-from .stocks import AShareStockReader
 from datautil.ez_tushare import MktAdjf
 from util.date import date_format
-
+'''
 class AShareStockAdjWriter(DataWriter):
 
     def __init__(self, _write=write_dataframe_to_csv):
@@ -45,4 +41,4 @@ class AShareStockAdjReader(DataReader):
 
     @property
     def file_path(self):
-        return gs.STOCKS_ADJUST_PATH
+        return gs.STOCKS_ADJUST_PATH'''

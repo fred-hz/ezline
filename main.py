@@ -1,45 +1,61 @@
+# coding=utf-8
+import notice.conf as nconf
 from calendars.ashare_calendar import AshareCalendar
-from data.stocks import AShareStockReader
-from data.stocks_adjust import AShareStockAdjWriter, AShareStockAdjReader
-from util.date import date_format
-from config import globals as gs
 import tushare as ts
-import pandas as pd
-import codecs
-from data.calendar import (
-    NaturalCalReader,
-    NaturalCalWriter,
-    AShareTradingCalReader,
-    AShareTradingCalWriter
+from bs4 import BeautifulSoup
+import re
+
+from data.file_portal import (
+    FileReader,
+    FileWriter,
+    DataframeFileFetcher
 )
-from market.daily_trade import AShareDailyTrade
-from data.stocks import justify_tickers
+from data.stocks import (
+    AShareStocksWriter,
+    AShareStocks
+)
+from notice.analyze import NoticeAnalyzer
 
 def test_calendar():
-    ncr = NaturalCalReader()
-    print ncr.read()
-    acr = AShareTradingCalReader()
-    print acr.read()
-
-    asc = AshareCalendar()
-    print asc.open_days
-    print asc.all_days
-    print asc.is_open('2013-03-04')
-    print asc.next_open('2013-03-04')
+    ac = AshareCalendar()
+    print ac.open_days
 
 def test_stocks_reader():
-    asr = AShareStockReader()
-    print asr.read()
-    asar = AShareStockAdjReader()
-    print asar.read()
+    pass
 
 def test_stocks_adj():
-    asaw = AShareStockAdjWriter()
-    print asaw.write()
+    pass
 
 def test_daily_trade():
-    asdt = AShareDailyTrade()
-    asdt.get_spot_value('300372', '2014-02-10', 'closePrice')
+    pass
+
+def test_stocks_file_interface():
+    #sw = AShareStocksWriter()
+    #sw.write()
+    sr = AShareStocks()
+    print sr.get_ticker_by_name('全新好')
+    print sr.get_name_by_ticker('000001')
+    for name in sr.get_all_tickers_name():
+        print name
+
+def test_notice_analyzer():
+    noon_url_reader = FileReader(file_path=nconf.NOTICE_RAW_URL_NOON_DATA_PATH,
+                                 file_fetcher=DataframeFileFetcher())
+    noon_df = noon_url_reader.read()
+    noon_date = noon_df['date'].tolist()
+    noon_url = noon_df['url'].tolist()
+    noon_pairs = zip(noon_date, noon_url)
+
+    mourning_url_reader = FileReader(file_path=nconf.NOTICE_RAW_URL_MOURNING_DATA_PATH,
+                                 file_fetcher=DataframeFileFetcher())
+    mourning_df = mourning_url_reader.read()
+    mourning_date = mourning_df['date'].tolist()
+    mourning_url = mourning_df['url'].tolist()
+    mourning_pairs = zip(mourning_date, mourning_url)
+
+    na = NoticeAnalyzer(mourning_pairs, noon_pairs)
+    na.analyze()
+    na.read_noon_notice()
 
 if __name__ == '__main__':
-    justify_tickers()
+    test_notice_analyzer()

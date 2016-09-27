@@ -10,8 +10,15 @@ from pandas import (
     DatetimeIndex,
     DateOffset
 )
-from data.calendar import NaturalCalReader
+from data.file_portal import (
+    FileReader,
+    ListFileFetcher
+)
 
+def create_natural_cal_reader():
+    ncr = FileReader(file_path=gs.NATURAL_CALENDAR_PATH,
+                     file_fetcher=ListFileFetcher())
+    return ncr
 
 class TradingCalendar(with_metaclass(ABCMeta)):
     def __init__(self, begin=gs.DATE_BEGIN_DEFAULT, end=gs.DATE_END_DEFAULT):
@@ -30,9 +37,7 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         )
 
     def load_all_days(self):
-        ncr = NaturalCalReader()
-        _all_days = ncr.read()
-        return _all_days
+        return create_natural_cal_reader().read()
 
     @abstractmethod
     def load_open_days(self):
@@ -45,3 +50,13 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         t1 = self.schedule.ix[dt:,:].ix[1:,:]
         t2 = t1[t1[gs.MARKET_OPEN_FIELD] == 1].index.get_values()[0]
         return t2
+
+    def get_all_opens(self, start_dt, end_dt):
+        result = []
+        if self.is_open(start_dt):
+            result.append(start_dt)
+        next_open = self.next_open(start_dt)
+        while next_open <= end_dt:
+            result.append(next_open)
+            next_open = self.next_open(next_open)
+        return result
