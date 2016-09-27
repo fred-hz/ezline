@@ -87,8 +87,8 @@ class DataframeFileFetcher(FileFetchInterface):
     def __init__(self):
         pass
 
-    def fetch(self, file_path, sep='|', encoding='utf8', dtype='string'):
-        return pd.read_csv(file_path, sep=sep, encoding=encoding, dtype=dtype)
+    def fetch(self, file_path, sep='|', encoding='utf8'):
+        return pd.read_csv(file_path, sep=sep, encoding=encoding)
 
 
 class ListFileFetcher(FileFetchInterface):
