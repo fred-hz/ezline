@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 import re
 import pandas as pd
 import pysftp
+from data.daily_trade import AShareDailyTradeWriter
 
 from data.file_portal import (
     FileReader,
@@ -61,24 +62,10 @@ def test_notice_analyzer():
     na.read_noon_notice()
 
 if __name__ == '__main__':
-    #test_notice_analyzer()
-    #data = pd.read_hdf('192.168.2.37\data\dataForSim\\tickdata\\tick_5min\stocktickdata\\2009\\1.h5')
-    #print data.columns
-    #print data
-    # mt = ts.Market()
-    # result = mt.MktAdjf(ticker='000001')
-    # print result
-    # result
-
-    # asw = AShareStocksWriter()
-    # asw.write()
-    # ass = AShareStocks()
-    # print ass.get_data()
-
-    writer = AShareStocksAdjWriter()
+    # data = pd.read_hdf('D:/data/1.h5')
+    # print data.columns
+    # print data.iloc[100]
+    # print data.iloc[101]
+    # print data.iloc[102]
+    writer = AShareDailyTradeWriter()
     writer.write()
-
-    adj = AShareStocksAdj()
-    tmp = adj.get_adjs_by_ticker('000001')
-    for each in tmp:
-        print each

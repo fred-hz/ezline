@@ -15,6 +15,9 @@ from data.file_portal import (
     ListFileFetcher
 )
 
+DATE_FIELD = 'date'
+MARKET_OPEN_FIELD = 'is_open'
+
 def create_natural_cal_reader():
     ncr = FileReader(file_path=gs.NATURAL_CALENDAR_PATH,
                      file_fetcher=ListFileFetcher())
@@ -29,10 +32,10 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         _index_is_open = [1 if date in self.open_days else 0 for date in self.all_days]
 
         self.schedule = DataFrame(
-            index=Index(data=self.all_days, name=gs.DATE_FIELD),
-            columns=[gs.MARKET_OPEN_FIELD],
+            index=Index(data=self.all_days, name=DATE_FIELD),
+            columns=[MARKET_OPEN_FIELD],
             data={
-                gs.MARKET_OPEN_FIELD: _index_is_open
+                MARKET_OPEN_FIELD: _index_is_open
             }
         )
 
@@ -44,11 +47,11 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         raise NotImplementedError
 
     def is_open(self, dt):
-        return self.schedule.ix[dt, gs.MARKET_OPEN_FIELD]
+        return self.schedule.ix[dt, MARKET_OPEN_FIELD]
 
     def next_open(self, dt):
         t1 = self.schedule.ix[dt:,:].ix[1:,:]
-        t2 = t1[t1[gs.MARKET_OPEN_FIELD] == 1].index.get_values()[0]
+        t2 = t1[t1[MARKET_OPEN_FIELD] == 1].index.get_values()[0]
         return t2
 
     def get_all_opens(self, start_dt, end_dt):

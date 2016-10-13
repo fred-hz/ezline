@@ -3,7 +3,7 @@ from .position import (
     Position,
     PositionDict
 )
-from market.daily_trade import AShareDailyTrade
+from data.daily_trade import AshareDailyTrade
 
 class PositionTracker(object):
     def __init__(self):
@@ -49,12 +49,11 @@ class PositionTracker(object):
                 position = self.positions[sid]
                 position.handle_split_and_dividend(sd)
 
-    def sync_last_sale_prices(self, dt, data_portal):
-        # data_portal need to be implemented in order to read daily_trade
+    def sync_last_sale_prices(self, dt, ashare_data):
+        # ashare_data is an instance of data.AshareDailyTrade
         for sid, position in self.positions.iteritems():
-            ashare_data = AShareDailyTrade()
             if dt > position.last_sale_date:
-                last_sale_price = ashare_data.get_spot_value(sid, dt, 'closePrice')
+                last_sale_price = ashare_data.get_trade_info(sid, dt, ['closePrice'])
                 position.last_sale_date = dt
                 position.last_sale_price = last_sale_price
 
