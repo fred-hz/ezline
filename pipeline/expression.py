@@ -83,7 +83,7 @@ NUMEXPR_MATH_FUNCS = {
 
 def method_name_for_op(op, commute=False):
     """
-    Get the name ofthe Python magic method of 'op'
+    Get the name of the Python magic method of 'op'
     :param op:
     :param commute:
     :return:
@@ -123,10 +123,10 @@ def _chain_tuple_element(tup, element):
 
 
 class NumericalExpression(Term):
-    def __init__(self, expr, inputs, window_length, missing_value):
+    def __init__(self, expr, binds):
         self._expr = expr
-        self.inputs = inputs
-        super(NumericalExpression, self).__init__(window_length, missing_value)
+        self.inputs = binds
+        super(NumericalExpression, self).__init__()
 
     def _compute(self, inputs, time, assets, mask):
         """

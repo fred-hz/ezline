@@ -7,8 +7,12 @@ from six import with_metaclass
 
 
 class Term(with_metaclass(ABCMeta, object)):
+    window_length = None
+    missing_value = None
 
-    def __init__(self, window_length, missing_value):
+    def __init__(self,
+                 window_length=window_length,
+                 missing_value=missing_value):
         self.window_length = window_length
         self.missing_value = missing_value
 

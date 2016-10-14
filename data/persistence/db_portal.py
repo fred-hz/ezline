@@ -1,10 +1,9 @@
-from data.data_portal import (
+from abc import ABCMeta
+
+from data.persistence.data_portal import (
     DataWriter
 )
-from abc import ABCMeta, abstractproperty, abstractmethod
-import pandas as pd
-import codecs
-import csv
+
 
 # Begin of example of multi-extension on DataWriter
 class SQLInterface(object):

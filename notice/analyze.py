@@ -1,25 +1,21 @@
 # coding=utf-8
-from bs4 import BeautifulSoup
-from calendars.ashare_calendar import AshareCalendar
-from collections import namedtuple
-from notice import conf
-from util.date import date_format
 import urllib
-import zlib
-from config import globals as gs
-import pandas as pd
+
 import numpy as np
-from data.stocks import (
-    AShareStocks,
-    TICKER_FIELD,
-    NAME_FIELD
-)
-from data.file_portal import (
+import pandas as pd
+from bs4 import BeautifulSoup
+
+from data.persistence.file_portal import (
     FileWriter,
     DataframeFileSaver,
     FileReader,
     DataframeFileFetcher
 )
+from data.stocks import (
+    AShareStocks
+)
+from notice import conf
+
 
 class NoticeAnalyzer(object):
 

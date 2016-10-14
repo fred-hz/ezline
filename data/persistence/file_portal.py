@@ -1,11 +1,13 @@
-from data.data_portal import (
+import codecs
+import csv
+from abc import ABCMeta, abstractmethod
+
+import pandas as pd
+
+from data.persistence.data_portal import (
     DataWriter,
     DataReader
 )
-from abc import ABCMeta, abstractproperty, abstractmethod
-import pandas as pd
-import codecs
-import csv
 
 
 class FileSaveInterface(object):

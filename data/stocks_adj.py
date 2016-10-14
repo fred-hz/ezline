@@ -1,14 +1,15 @@
+from collections import namedtuple
+
 import tushare as ts
+
 from config import globals as gs
-from .file_portal import (
+from data.persistence.file_portal import (
     FileReader,
     FileWriter,
     DataframeFileSaver,
     DataframeFileFetcher
 )
-from collections import namedtuple
 from data.stocks import AShareStocks
-from util.date import date_format
 
 # adjFactor and AccumAdjFactor should not be used
 FETCH_FIELDS = ['ticker',
@@ -39,7 +40,7 @@ Adj_tuple = namedtuple('Adj_tuple', [TICKER_FIELD,
                                      ALLOTMENT_RATIO_FIELD,
                                      ALLOTMENT_PRICE_FIELD])
 
-class AShareStocksAdjWriter():
+class AShareStocksAdjWriter(object):
     def __init__(self):
         self.file_writer = FileWriter(gs.A_SHARE_STOCKS_ADJUST_PATH,
                                       DataframeFileSaver())
@@ -76,7 +77,7 @@ class AShareStocksAdjWriter():
         self.file_writer.write(self.load_Internet_data())
 
 
-class AShareStocksAdj():
+class AShareStocksAdj(object):
     def __init__(self):
         self.file_reader = FileReader(gs.A_SHARE_STOCKS_ADJUST_PATH,
                                       DataframeFileFetcher())

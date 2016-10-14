@@ -1,12 +1,13 @@
+import tushare as ts
+from pandas import Series
+
 from config import globals as gs
-from .file_portal import (
+from data.persistence.file_portal import (
     FileReader,
     FileWriter,
     DataframeFileSaver,
     DataframeFileFetcher,
 )
-from pandas import Series
-import tushare as ts
 
 FETCH_FIELDS = ['ticker',
                 'secShortName',
@@ -20,7 +21,7 @@ EXCHANGE_FIELD = 'exchange'
 STATUS_FIELD = 'status'
 LIST_DATE_FIELD = 'list_date'
 
-class AShareStocksWriter():
+class AShareStocksWriter(object):
     def __init__(self):
         self.file_writer = FileWriter(gs.A_SHARE_STOCKS_PATH,
                                       DataframeFileSaver())

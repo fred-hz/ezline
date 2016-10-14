@@ -1,21 +1,13 @@
 # coding=utf-8
 import notice.conf as nconf
 from calendars.ashare_calendar import AshareCalendar
-import tushare as ts
-from data.stocks_adj import AShareStocksAdjWriter, AShareStocksAdj
-from bs4 import BeautifulSoup
-import re
-import pandas as pd
-import pysftp
 from data.daily_trade import AShareDailyTradeWriter
 
-from data.file_portal import (
+from data.persistence.file_portal import (
     FileReader,
-    FileWriter,
     DataframeFileFetcher
 )
 from data.stocks import (
-    AShareStocksWriter,
     AShareStocks
 )
 from notice.analyze import NoticeAnalyzer

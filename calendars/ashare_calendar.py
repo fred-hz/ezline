@@ -1,12 +1,10 @@
-from abc import ABCMeta, abstractproperty
-import pandas as pd
 from config import globals as gs
-from .trading_calendar import TradingCalendar
-from pandas import DataFrame
-from data.file_portal import (
+from data.persistence.file_portal import (
     FileReader,
     ListFileFetcher
 )
+from .trading_calendar import TradingCalendar
+
 
 def create_ashare_cal_reader():
     acr = FileReader(file_path=gs.A_SHARE_TRADING_CALENDAR_PATH,

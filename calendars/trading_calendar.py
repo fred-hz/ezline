@@ -1,16 +1,13 @@
-from abc import ABCMeta, abstractproperty, abstractmethod
-import numpy as np
-import pandas as pd
-from six import with_metaclass
-from config import globals as gs
+from abc import ABCMeta, abstractmethod
+
 from pandas import (
     DataFrame,
-    Index,
-    date_range,
-    DatetimeIndex,
-    DateOffset
+    Index
 )
-from data.file_portal import (
+from six import with_metaclass
+
+from config import globals as gs
+from data.persistence.file_portal import (
     FileReader,
     ListFileFetcher
 )

@@ -1,12 +1,14 @@
+from collections import namedtuple
+
 import tushare as ts
+
 from config import globals as gs
-from .file_portal import (
+from data.persistence.file_portal import (
     FileReader,
     FileWriter,
     DataframeFileSaver,
     DataframeFileFetcher
 )
-from collections import namedtuple
 from data.stocks import AShareStocks
 
 FETCH_FIELDS = ['ticker',
@@ -28,11 +30,12 @@ FETCH_FIELDS = ['ticker',
                 'PB']
 
 TICKER_FIELD = 'ticker'
-TRADE_DATE_FIELD = 'trade_date'
-PRE_CLOSE_PRICE_FIELD = 'pre_close_price'
-OPEN_PRICE_FIELD = 'open_price'
-HIGHEST_PRICE_FIELD = 'highest_price'
-LOWEST_PRICE_FIELD = 'lowest_price'
+TRADE_DATE_FIELD = 'date'
+PRE_CLOSE_PRICE_FIELD = 'pre_close'
+OPEN_PRICE_FIELD = 'open'
+HIGHEST_PRICE_FIELD = 'high'
+LOWEST_PRICE_FIELD = 'low'
+CLOSE_PRICE_FIELD = 'close'
 TURNOVER_VOL_FIELD = 'turnover_vol'
 TURNOVER_VALUE_FIELD = 'turnover_value'
 DEAL_AMOUNT_FIELD = 'deal_amount'
@@ -50,6 +53,7 @@ DailyTradeTupe = namedtuple('DailyTradeTupe', [TICKER_FIELD,
                                                OPEN_PRICE_FIELD,
                                                HIGHEST_PRICE_FIELD,
                                                LOWEST_PRICE_FIELD,
+                                               CLOSE_PRICE_FIELD,
                                                TURNOVER_VOL_FIELD,
                                                TURNOVER_VALUE_FIELD,
                                                DEAL_AMOUNT_FIELD,
@@ -88,16 +92,17 @@ class AShareDailyTradeWriter():
                              FETCH_FIELDS[3]: OPEN_PRICE_FIELD,
                              FETCH_FIELDS[4]: HIGHEST_PRICE_FIELD,
                              FETCH_FIELDS[5]: LOWEST_PRICE_FIELD,
-                             FETCH_FIELDS[6]: TURNOVER_VOL_FIELD,
-                             FETCH_FIELDS[7]: TURNOVER_VALUE_FIELD,
-                             FETCH_FIELDS[8]: DEAL_AMOUNT_FIELD,
-                             FETCH_FIELDS[9]: TURNOVER_RATE_FIELD,
-                             FETCH_FIELDS[10]: NEG_MARKET_VALUE_FIELD,
-                             FETCH_FIELDS[11]: MARKET_VALUE_FIELD,
-                             FETCH_FIELDS[12]: IS_OPEN_FIELD,
-                             FETCH_FIELDS[13]: PE_FIELD,
-                             FETCH_FIELDS[14]: SUPPOSED_PE_FIELD,
-                             FETCH_FIELDS[15]: SUPPOSED_PB_FIELD},
+                             FETCH_FIELDS[6]: CLOSE_PRICE_FIELD,
+                             FETCH_FIELDS[7]: TURNOVER_VOL_FIELD,
+                             FETCH_FIELDS[8]: TURNOVER_VALUE_FIELD,
+                             FETCH_FIELDS[9]: DEAL_AMOUNT_FIELD,
+                             FETCH_FIELDS[10]: TURNOVER_RATE_FIELD,
+                             FETCH_FIELDS[11]: NEG_MARKET_VALUE_FIELD,
+                             FETCH_FIELDS[12]: MARKET_VALUE_FIELD,
+                             FETCH_FIELDS[13]: IS_OPEN_FIELD,
+                             FETCH_FIELDS[14]: PE_FIELD,
+                             FETCH_FIELDS[15]: SUPPOSED_PE_FIELD,
+                             FETCH_FIELDS[16]: SUPPOSED_PB_FIELD},
                     inplace=True)
         return data
 
@@ -114,12 +119,12 @@ class AshareDailyTrade():
         return self.file_reader.read()
 
     def get_trade_info(self, ticker, date, columns=None):
-        '''
+        """
         :param ticker:
         :param date:
         :param columns: Should be an array
         :return:
-        '''
+        """
         if columns is None:
             result = self.data[(self.data[TICKER_FIELD] == ticker) and
                                (self.data[TRADE_DATE_FIELD] == date)]
