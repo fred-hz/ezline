@@ -112,7 +112,6 @@ class DictlistFileFetcher(FileFetchInterface):
         return [row_dict for row_dict in reader]
 
 
-
 class FileWriter(DataWriter):
     def __init__(self, file_path, file_saver):
         self.file_path = file_path
@@ -121,6 +120,7 @@ class FileWriter(DataWriter):
 
     def write(self, data):
         self.file_saver.save(data, self.file_path)
+
 
 class FileReader(DataReader):
     def __init__(self, file_path, file_fetcher):

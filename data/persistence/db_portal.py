@@ -9,6 +9,8 @@ from data.persistence.data_portal import (
 class SQLInterface(object):
     __metaclass__ = ABCMeta
 
+
 class SQLWriter(DataWriter, SQLInterface):
     __metaclass__ = ABCMeta
+
 # End of example of multi-extension on DataWriter
